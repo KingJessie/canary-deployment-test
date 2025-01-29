@@ -8,7 +8,7 @@ jobs:
   build-container-image:
     runs-on: ubuntu-latest
     env:
-      IMAGE: ttl.sh/canary-deployment-test-${{github.triggering_actor}}:${{github.run_number}}
+      IMAGE: argoproj/rollouts-demo:blue
       FORCE_COLOR: 1
     steps:
       - uses: earthly/actions-setup@v1
@@ -25,8 +25,8 @@ jobs:
           echo "Running unit tests..."
       - name: Push prebuilt image
         run: |
-          docker pull my-prebuilt-image:latest
-          docker tag my-prebuilt-image:latest canary-deployment-test:${{ github.run_number }}
+          docker pull argoproj/rollouts-demo:blue
+          docker tag argoproj/rollouts-demo:blue canary-deployment-test:${{ github.run_number }}
           docker push canary-deployment-test:${{ github.run_number }}
       - name: Modify image
         run: |

@@ -8,7 +8,7 @@ jobs:
   build-container-image:
     runs-on: ubuntu-latest
     env:
-      IMAGE: ttl.sh/silly-demo-${{github.triggering_actor}}:${{github.run_number}}
+      IMAGE: ttl.sh/canary-deployment-test-${{github.triggering_actor}}:${{github.run_number}}
       FORCE_COLOR: 1
     steps:
       - uses: earthly/actions-setup@v1
@@ -33,7 +33,7 @@ jobs:
         run: |
           yq --inplace \
               ".spec.template.spec.containers[0].image = \"${{ env.IMAGE }}\"" \
-              silly-demo/deployment.yaml
+              canary-deployment-test/rollout.yaml
       - name: Commit changes
         run: |
           git config --local user.email "41898282+github-actions[bot]@users.noreply.github.com"

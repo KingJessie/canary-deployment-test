@@ -23,12 +23,11 @@ jobs:
       - name: Run unit tests
         run: |
           echo "Running unit tests..."
-      - name: Build and push
-        uses: docker/build-push-action@v5
-        with:
-          push: true
-          tags: canary-deployment-test:${{ github.run_number }}
-          platforms: linux/amd64,linux/arm64
+      - name: Push prebuilt image
+        run: |
+          docker pull my-prebuilt-image:latest
+          docker tag my-prebuilt-image:latest canary-deployment-test:${{ github.run_number }}
+          docker push canary-deployment-test:${{ github.run_number }}
       - name: Modify image
         run: |
           yq --inplace \
